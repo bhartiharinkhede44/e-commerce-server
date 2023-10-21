@@ -1,9 +1,10 @@
 import express from "express";
-import mongoose, {model, Schema} from "mongoose";
+import mongoose from "mongoose";
 import dotenv from 'dotenv';
 dotenv.config();
-// import Product from './models/product.js'
+import product from './models/product.js'
 
+const PORT = 8080;
 
 
 const app = express();
@@ -16,33 +17,11 @@ const connectMongoDB = async () => {
     }
 };
 connectMongoDB();
-
-
-const productSchema = new Schema({
-    name: String,
-    description: String,
-    price: Number,
-    productImage: String,
-    brand: String,
-});
-const Product = model('Product', productSchema);
-
-
-
-
-
-
-
-
-
-
-
-
-app.get("/products",async (res, req) => {
-    const findingproduct= await Product.find()
+app.get("/products",async (req, res) => {
+    const FindProduct= await product.find();
     res.json({
         
-        data: findingproduct,
+        data: FindProduct,
         
     })
 })
@@ -80,7 +59,7 @@ app.post("/product",async (req, res) => {
         })
     }
 
-    const prod = new Product({
+    const prod = new product({
 
         name : name,
         description : description,
@@ -100,32 +79,26 @@ app.post("/product",async (req, res) => {
 
 
 });
-app.get('/product', (req, res) => {
+app.get('/product', async (req, res) => {
     const { name } = req.query;
-    let product = null;
-    const newProduct ={
-        // 'id':'id',
-        'name':'name',
-        'description':'description',
-        'price' : 'price',
-        'productImage' : 'productImage',
-        'brand' : 'brand'
-    }
-    if (product == null) {
-        return res.json({
-            success: false,
-            message: 'product not found',
-        })
-    }
-    res.json({
-        success: true,
-        data: student,
-        message: 'successfully fetched student'
+
+    const Product = await product.findOne({name:name})
+       res.json
+       ({
+        success:true,
+        data:Product,
+        message:"successfull"
+       })
+       
+
     })
+   
+    
 
-})
 
 
-app.listen(8080, () => {
-    console.log(`server is running at 8080`)
+
+app.listen(PORT, () => {
+    console.log(`server is running at PORT 
+    ${PORT}`)
 })
