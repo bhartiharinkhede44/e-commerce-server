@@ -104,7 +104,7 @@ app.get('/product', (req, res) => {
     const { name } = req.query;
     let product = null;
     const newProduct ={
-        'id':'id',
+        // 'id':'id',
         'name':'name',
         'description':'description',
         'price' : 'price',
@@ -126,6 +126,6 @@ app.get('/product', (req, res) => {
 })
 
 
-app.listen(5000, () => {
-    console.log(`server is running at 5000`)
+app.listen(8080, () => {
+    console.log(`server is running at 8080`)
 })
